@@ -6,6 +6,7 @@ import com.geopagos.mstennistournament.domain.Player;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -13,27 +14,27 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MatchValidator {
 
-    private static final String INVALID_PLAYERS_SIZE = "El torneo debe tener una cantidad de jugador@s par";
-    private static final String INVALID_GENDER = "El valor ingresado para genero del torneo es incorrecto";
+//    private static final String INVALID_PLAYERS_SIZE = "El torneo debe tener una cantidad de jugador@s par";
+    private static final String INVALID_GENDER = "El valor ingresado para genero del torneo es incorrecto, posibles valores: " + Arrays.toString(Gender.values());
     private static final String INVALID_SKILL_LEVEL = "Los siguientes participantes tienen nivel de habilidad superior a 100 o inferior a 0: {value}";
 
-    public List<Player> validate(MatchExecutionRequestModel matchExecutionRequestModel) throws Exception {
-        validateGender(matchExecutionRequestModel.matchGender());
+    public List<Player> validate(MatchExecutionRequestModel matchExecutionRequestModel, String matchGender) throws Exception {
+        validateGender(matchGender);
 
-        List<Player> validPlayers = obtainValidPlayers(matchExecutionRequestModel);
-        validatePlayersSize(validPlayers);
+        List<Player> validPlayers = obtainValidPlayers(matchExecutionRequestModel, matchGender);
+//        validatePlayersSize(validPlayers);
         validateSkillLevels(validPlayers);
 
         return validPlayers;
     }
 
-    private List<Player> obtainValidPlayers(MatchExecutionRequestModel matchExecutionRequestModel) {
-        List<Player> validPlayers = matchExecutionRequestModel.players().stream().filter(p -> p.gender().name().equals(matchExecutionRequestModel.matchGender().toUpperCase())).toList();
-        List<Player> nonValidPlayers = matchExecutionRequestModel.players().stream().filter(p -> !p.gender().name().equals(matchExecutionRequestModel.matchGender().toUpperCase())).toList();
+    private List<Player> obtainValidPlayers(MatchExecutionRequestModel matchExecutionRequestModel, String matchGender) {
+        List<Player> validPlayers = matchExecutionRequestModel.players().stream().filter(p -> p.gender().name().equals(matchGender)).toList();
+        List<Player> nonValidPlayers = matchExecutionRequestModel.players().stream().filter(p -> !p.gender().name().equals(matchGender)).toList();
 
-        if(validPlayers.size() <= matchExecutionRequestModel.players().size())
+        if(validPlayers.size() < matchExecutionRequestModel.players().size())
             log.info("Los participantes {} no jugaran porque no pertenecen a la categoría {}",
-                    nonValidPlayers.stream().map(Player::name).collect(Collectors.toList()), matchExecutionRequestModel.matchGender());
+                    nonValidPlayers.stream().map(Player::name).collect(Collectors.toList()), matchGender);
 
         return validPlayers;
     }
@@ -43,10 +44,10 @@ public class MatchValidator {
             throw new Exception(INVALID_GENDER);
     }
 
-    private void validatePlayersSize(List<Player> players) throws Exception {
-        if(players.size() % 2 != 0)
-            throw new Exception(INVALID_PLAYERS_SIZE);
-    }
+//    private void validatePlayersSize(List<Player> players) throws Exception {
+//        if(players.size() % 2 != 0)
+//            throw new Exception(INVALID_PLAYERS_SIZE);
+//    }
 
     private void validateSkillLevels(List<Player> players) throws Exception {
         List<Player> invalidPlayers = players.stream().filter(p -> p.skillLevel() > 100 || p.skillLevel() < 0).toList();

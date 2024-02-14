@@ -4,5 +4,5 @@ import com.geopagos.mstennistournament.domain.Player;
 
 import java.util.List;
 
-public record MatchExecutionRequestModel(List<Player> players, String matchGender) {
+public record MatchExecutionRequestModel(List<Player> players) {
 }

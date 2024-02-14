@@ -19,8 +19,8 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MatchController {
 
-    private ExecuteTournamentCommand executeTournamentCommand;
-    private MatchValidator validator;
+    private final ExecuteTournamentCommand executeTournamentCommand;
+    private final MatchValidator validator;
 
     public MatchController(ExecuteTournamentCommand executeTournamentCommand, MatchValidator validator) {
         this.executeTournamentCommand = executeTournamentCommand;
@@ -28,13 +28,13 @@ public class MatchController {
     }
 
     @PostMapping(value = "/execute")
-    public ResponseEntity<MatchResultResponseModel> execute(@RequestBody MatchExecutionRequestModel matchExecutionRequestModel) throws Exception {
+    public ResponseEntity<MatchResultResponseModel> execute(@RequestBody MatchExecutionRequestModel matchExecutionRequestModel, @RequestParam String matchGender) throws Exception {
 
-        List<Player> validPlayers = validator.validate(matchExecutionRequestModel);
-        Gender gender = Gender.map(matchExecutionRequestModel.matchGender());
+        List<Player> validPlayers = validator.validate(matchExecutionRequestModel, matchGender);
+        Gender gender = Gender.map(matchGender);
 
         List<String> playersNames = validPlayers.stream().map(Player::name).toList();
-        log.info("Start execution {} match for players: {}", matchExecutionRequestModel.matchGender(), playersNames);
+        log.info("Start execution {} match for players: {}", matchGender, playersNames);
 
         MatchResult matchResult = executeTournamentCommand.execute(validPlayers, gender);
         MatchResultResponseModel matchResultResponseModel = MatchResultResponseModel.toResponseModel(matchResult);
