@@ -5,7 +5,7 @@ public enum Gender {
 
     public static Gender map(String name) {
         for(Gender val: values()){
-            if(val.name().equals(name))
+            if(val.name().equals(name.toUpperCase()))
                 return val;
         }
         return null;

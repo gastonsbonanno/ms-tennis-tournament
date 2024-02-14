@@ -1,6 +1,5 @@
-package com.geopagos.mstennistournament.adapter.controller.model;
+package com.geopagos.mstennistournament.adapter.controller.match.model;
 
-import com.geopagos.mstennistournament.domain.Gender;
 import com.geopagos.mstennistournament.domain.Player;
 
 import java.util.List;
