@@ -3,12 +3,14 @@ package com.geopagos.mstennistournament.application.usecase.genderstrategy;
 import com.geopagos.mstennistournament.domain.MatchResult;
 import com.geopagos.mstennistournament.domain.Player;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
+@Component("MaleStrategy")
 public class MaleStrategy implements GenderStrategy {
     @Override
     public MatchResult executeTournament(List<Player> players) {
