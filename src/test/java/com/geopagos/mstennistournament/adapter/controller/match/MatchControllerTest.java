@@ -52,7 +52,7 @@ class MatchControllerTest {
         List<Player> validPlayers = MocksFactory.getMalePlayersMock();
 
         Gender gender = Gender.MALE;
-        MatchResult matchResult = new MatchResult(new Player("Pedro",10,20,30,40, Gender.MALE));
+        MatchResult matchResult = new MatchResult(new Player("Pedro",10,20,30,40, Gender.MALE), 1L);
         MatchResultResponseModel expectedResponseModel = new MatchResultResponseModel(new Player("Pedro",10,20,30,40, Gender.MALE));
 
         when(validator.validate(requestModel, gender.name())).thenReturn(validPlayers);

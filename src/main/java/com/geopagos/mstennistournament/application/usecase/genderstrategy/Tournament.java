@@ -14,17 +14,21 @@ import java.util.Random;
 @Component
 public class Tournament implements TournamentExecution {
 
+    private Long matchsPlayed;
+
     @Override
     public MatchResult execute(List<Player> players) {
         log.info("Tournament begins");
+        matchsPlayed = 0L;
         Player winner = executeMatchs(players).get(0);
         log.info("Tournament Winner: " + winner);
-        return MatchResult.builder().player(winner).build();
+        return MatchResult.builder().player(winner).matchsPlayed(matchsPlayed).build();
     }
 
     private List<Player> executeMatchs(List<Player> players) {
         List<Player> winners = new ArrayList<>();
         for(int i=0; i < players.size(); i+=2) {
+            matchsPlayed++;
             if(hasPlayerTwo(i, players.size())) {
                 Player winner = runMatch(players.get(i), players.get(i+1));
                 log.info("Match winner: " + winner.name());

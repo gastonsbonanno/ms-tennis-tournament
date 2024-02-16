@@ -3,5 +3,5 @@ package com.geopagos.mstennistournament.domain;
 import lombok.Builder;
 
 @Builder
-public record MatchResult(Player player) {
+public record MatchResult(Player player, Long matchsPlayed) {
 }
