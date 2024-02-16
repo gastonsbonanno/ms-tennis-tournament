@@ -10,12 +10,10 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-
-class MaleStrategyTest {
+class MaleTournamentTest {
 
     @InjectMocks
-    MaleStrategy maleStrategy;
+    MaleTournament maleTournament;
 
     @BeforeEach
     void setUp() {
@@ -27,7 +25,7 @@ class MaleStrategyTest {
 
         List<Player> requestPlayers = new ArrayList<>(MocksFactory.getMalePlayersMock());
 
-        maleStrategy.executeTournament(requestPlayers);
+        maleTournament.execute(requestPlayers);
 
     }
 

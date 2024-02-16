@@ -14,7 +14,6 @@ import java.util.stream.Collectors;
 @Slf4j
 public class MatchValidator {
 
-//    private static final String INVALID_PLAYERS_SIZE = "El torneo debe tener una cantidad de jugador@s par";
     private static final String INVALID_GENDER = "El valor ingresado para genero del torneo es incorrecto, posibles valores: " + Arrays.toString(Gender.values());
     private static final String INVALID_SKILL_LEVEL = "Los siguientes participantes tienen nivel de habilidad superior a 100 o inferior a 0: {value}";
 
@@ -22,7 +21,6 @@ public class MatchValidator {
         validateGender(matchGender);
 
         List<Player> validPlayers = obtainValidPlayers(matchExecutionRequestModel, matchGender);
-//        validatePlayersSize(validPlayers);
         validateSkillLevels(validPlayers);
 
         return validPlayers;
@@ -33,7 +31,7 @@ public class MatchValidator {
         List<Player> nonValidPlayers = matchExecutionRequestModel.players().stream().filter(p -> !p.gender().name().equals(matchGender)).toList();
 
         if(validPlayers.size() < matchExecutionRequestModel.players().size())
-            log.info("Los participantes {} no jugaran porque no pertenecen a la categoría {}",
+            log.info("participants {} will not play because they do not belong to the category {}",
                     nonValidPlayers.stream().map(Player::name).collect(Collectors.toList()), matchGender);
 
         return validPlayers;
@@ -43,11 +41,6 @@ public class MatchValidator {
         if(Gender.map(gender) == null)
             throw new Exception(INVALID_GENDER);
     }
-
-//    private void validatePlayersSize(List<Player> players) throws Exception {
-//        if(players.size() % 2 != 0)
-//            throw new Exception(INVALID_PLAYERS_SIZE);
-//    }
 
     private void validateSkillLevels(List<Player> players) throws Exception {
         List<Player> invalidPlayers = players.stream().filter(p -> p.skillLevel() > 100 || p.skillLevel() < 0).toList();
