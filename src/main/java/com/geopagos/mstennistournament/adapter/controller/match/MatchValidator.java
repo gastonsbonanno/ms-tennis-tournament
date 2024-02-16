@@ -47,7 +47,7 @@ public class MatchValidator {
     }
 
     private void validateGender(String gender) throws Exception {
-        if(Gender.map(gender) == null)
+        if(gender != null && Gender.map(gender) == null)
             throw new Exception(INVALID_GENDER);
     }
 
