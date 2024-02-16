@@ -1,7 +1,6 @@
 package com.geopagos.mstennistournament.adapter.controller.match;
 
 import com.geopagos.mstennistournament.adapter.controller.match.model.MatchExecutionRequestModel;
-import com.geopagos.mstennistournament.domain.Gender;
 import com.geopagos.mstennistournament.domain.Player;
 import com.geopagos.mstennistournament.factory.MocksFactory;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,7 +11,8 @@ import org.mockito.MockitoAnnotations;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
 class MatchValidatorTest {
@@ -35,7 +35,7 @@ class MatchValidatorTest {
         MatchExecutionRequestModel requestModel = new MatchExecutionRequestModel(requestPlayers);
         String matchGender = "MALE";
 
-        List<Player> players = matchValidator.validate(requestModel, matchGender);
+        List<Player> players = matchValidator.validateExecute(requestModel, matchGender);
 
         assertEquals(MocksFactory.getMalePlayersMock(), players);
     }
@@ -50,6 +50,6 @@ class MatchValidatorTest {
         MatchExecutionRequestModel requestModel = new MatchExecutionRequestModel(requestPlayers);
         String matchGender = "MAL";
 
-        assertThrows(Exception.class, () -> matchValidator.validate(requestModel, matchGender));
+        assertThrows(Exception.class, () -> matchValidator.validateExecute(requestModel, matchGender));
     }
 }

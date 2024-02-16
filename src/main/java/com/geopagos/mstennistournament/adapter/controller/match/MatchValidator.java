@@ -17,14 +17,19 @@ public class MatchValidator {
     private static final String INVALID_GENDER = "El valor ingresado para genero del torneo es incorrecto, posibles valores: " + Arrays.toString(Gender.values());
     private static final String INVALID_SKILL_LEVEL = "Los siguientes participantes tienen nivel de habilidad superior a 100 o inferior a 0: {value}";
     private static final String EMPTY_PLAYERS = "At least one player is needed";
+    private static final String DATE_FORMAT_ERROR = "Date format should be yyyy-MM-dd";
 
-    public List<Player> validate(MatchExecutionRequestModel matchExecutionRequestModel, String matchGender) throws Exception {
+    public List<Player> validateExecute(MatchExecutionRequestModel matchExecutionRequestModel, String matchGender) throws Exception {
         validateGender(matchGender);
 
         List<Player> validPlayers = obtainValidPlayers(matchExecutionRequestModel, matchGender);
         validateSkillLevels(validPlayers);
 
         return validPlayers;
+    }
+
+    void validateFindResults(String gender) throws Exception {
+        validateGender(gender);
     }
 
     private List<Player> obtainValidPlayers(MatchExecutionRequestModel matchExecutionRequestModel, String matchGender) throws Exception {
@@ -51,5 +56,4 @@ public class MatchValidator {
         if(invalidPlayers.size() > 0)
             throw new Exception(INVALID_SKILL_LEVEL.replace("{value}", invalidPlayers.stream().map(Player::name).toList().toString()));
     }
-
 }

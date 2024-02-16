@@ -1,5 +1,6 @@
 package com.geopagos.mstennistournament.adapter.sqlserver.model;
 
+import com.geopagos.mstennistournament.domain.TournamentResult;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -24,6 +25,15 @@ public class TournamentResultSqlServerModel {
 
     @Column(name = "matchs_played")
     private Long matchsPlayed;
+
+    public TournamentResult toDomain() {
+        return TournamentResult.builder()
+                .executionDate(executionDate)
+                .gender(gender)
+                .winnerName(winnerName)
+                .matchsPlayed(matchsPlayed)
+                .build();
+    }
 }
 
 
