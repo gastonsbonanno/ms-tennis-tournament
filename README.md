@@ -64,7 +64,7 @@ Geopagos challenge
 * http://localhost:8080/v3/api-docs
 
 
-## Database
+## Database - SQL Server
 ### Name: tennis_tournament
 * Tables: tournament_results
 * Fields: 
